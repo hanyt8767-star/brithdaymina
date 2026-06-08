@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina Ehab - 19th Birthday</title>
+    <!-- Tailwind CSS for modern layouts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for premium editorial typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for beautiful elegant icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS variables for uniform luxury colors */
+        :root {
+            --gold-light: #f3e5ab;
+            --gold: #c5a059;
+            --gold-dark: #8c6b2d;
+            --obsidian: #09090b;
+            --luxury-black: #030303;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--luxury-black);
+            color: #f3f4f6;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .font-cinzel {
+            font-family: 'Cinzel', serif;
+        }
+
+        /* Gold gradient text styling */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #fff 0%, #f3e5ab 50%, #c5a059 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Luxury Gold Border Glow */
+        .gold-border-glow {
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.1), inset 0 0 15px rgba(197, 160, 89, 0.05);
+        }
+
+        .gold-button {
+            background: linear-gradient(135deg, #c5a059 0%, #8c6b2d 100%);
+            box-shadow: 0 4px 20px rgba(140, 107, 45, 0.3);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gold-button:hover {
+            background: linear-gradient(135deg, #f3e5ab 0%, #c5a059 100%);
+            box-shadow: 0 6px 25px rgba(197, 160, 89, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Smooth Screen Transitions */
+        .screen {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1), transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(1.03);
+            z-index: 10;
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            z-index: 20;
+        }
+
+        /* Floating Envelope Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        .float-animation {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Custom Paper Texture Overlay */
+        .paper-texture {
+            background-color: #fcfbfa;
+            background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0), radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+        }
+
+        /* Glassmorphism Styles */
+        .glass-card {
+            background: rgba(15, 15, 15, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(197, 160, 89, 0.15);
+        }
+
+        /* Custom Scrollbar for Letter */
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="relative w-screen h-screen overflow-hidden">
+
+    <!-- The persistent backdrop canvas rendering interactive, elegant stardust and cinematic particles -->
+    <canvas id="bgCanvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- Elegantly styled glass control bar placed in the top right, matching the premium aesthetic -->
+    <div id="musicControls" class="fixed top-6 right-6 z-50 flex items-center gap-3 glass-card px-4 py-2 rounded-full opacity-0 transition-opacity duration-1000">
+        <span class="text-xs tracking-widest text-gray-400 font-cinzel">AMBIENCE</span>
+        <button id="musicToggleBtn" class="w-8 h-8 rounded-full border border-[rgba(197,160,89,0.3)] flex items-center justify-center text-xs text-[#c5a059] hover:bg-[rgba(197,160,89,0.1)] transition-colors duration-300">
+            <i class="fa-solid fa-play"></i>
+        </button>
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-volume-low text-[10px] text-gray-400"></i>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.5" class="w-16 h-1 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-[#c5a059]">
+        </div>
+    </div>
+
+    <!-- Necessary to satisfy browser auto-play policies while adding a cinematic start moment -->
+    <div id="screenGate" class="screen active bg-black flex flex-col justify-center items-center text-center p-6">
+        <div class="max-w-md w-full px-8 py-12 rounded-2xl glass-card flex flex-col items-center gap-6 border border-gold-dark/30">
+            <h1 class="font-cinzel text-3xl md:text-4xl text-gold-gradient tracking-widest font-bold">MINA EHAB</h1>
+            <p class="text-sm text-gray-400 tracking-wider">A Cinematic 19th Birthday Experience</p>
+            <p class="text-[11px] text-gray-500 italic uppercase">Presented as a gift by Tony Hany</p>
+            <button onclick="startExperience()" class="mt-4 px-8 py-3 rounded-full text-xs font-semibold tracking-widest text-black gold-button uppercase">
+                Begin Experience
+            </button>
+        </div>
+    </div>
+
+    <!-- Fades multiple emotional lines sequentially -->
+    <div id="screen1" class="screen bg-black">
+        <div id="introTextContainer" class="text-center px-6 max-w-2xl">
+            <!-- Dynamic JavaScript inserts and transitions subtitles step-by-step -->
+            <p id="introSubtitle" class="font-cinzel text-xl md:text-3xl text-gold-gradient tracking-widest leading-relaxed transition-all duration-1000 transform opacity-0 scale-95"></p>
+        </div>
+    </div>
+
+    <!-- Display of a luxurious wax-sealed envelope with dynamic candle glow shadows -->
+    <div id="screen2" class="screen">
+        <div class="flex flex-col items-center gap-10">
+            <div id="envelopeWrapper" class="relative w-[340px] h-[220px] md:w-[420px] md:h-[270px] cursor-pointer float-animation" onclick="openEnvelope()">
+                <!-- The Envelope Back Panel & Shadow -->
+                <div class="absolute inset-0 bg-[#161618] rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(197,160,89,0.05)] border border-neutral-800 flex items-center justify-center overflow-hidden">
+                    <!-- Fine gold linear patterns representing luxury paper texture -->
+                    <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(30deg, #c5a059 1%, transparent 1%), linear-gradient(150deg, #c5a059 1%, transparent 1%); background-size: 20px 20px;"></div>
+                </div>
+
+                <!-- Letter Insert (Hidden Inside Envelope originally) -->
+                <div id="envelopeLetter" class="absolute left-4 right-4 top-4 bottom-4 paper-texture rounded-lg shadow-inner p-6 flex flex-col justify-between transition-all duration-1000 transform translate-y-0 opacity-0 z-20">
+                    <div>
+                        <div class="h-1 w-12 bg-gold mx-auto mb-4"></div>
+                        <h4 class="font-cinzel text-center text-xs tracking-widest text-neutral-800 font-bold">MEMOIRE D'AMOUR</h4>
+                    </div>
+                    <div class="text-center text-[10px] text-neutral-500 tracking-widest font-cinzel">UNFOLDING DESTINY</div>
+                </div>
+
+                <!-- Envelope Flap (Top Layer) -->
+                <div id="envelopeFlap" class="absolute inset-0 z-30 pointer-events-none transition-all duration-700 origin-top" style="transform-style: preserve-3d;">
+                    <!-- Elegant visual triangles representing envelope structural folds -->
+                    <svg class="w-full h-full drop-shadow-2xl" viewBox="0 0 400 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 0 L200 140 L400 0 Z" fill="#202024" stroke="#c5a059" stroke-width="0.5"/>
+                        <path d="M0 260 L180 120 L0 0 Z" fill="#1b1b1d"/>
+                        <path d="M400 260 L220 120 L400 0 Z" fill="#1b1b1d"/>
+                        <path d="M0 260 L200 110 L400 260 Z" fill="#18181a" stroke="#101012" stroke-width="1"/>
+                    </svg>
+                </div>
+
+                <!-- Gold Wax Seal -->
+                <div id="waxSeal" class="absolute top-[44%] left-[44%] md:top-[43%] md:left-[44%] w-12 h-12 md:w-14 md:h-14 bg-gradient-to-br from-[#aa771c] via-[#c5a059] to-[#8c6b2d] rounded-full shadow-[0_4px_10px_rgba(0,0,0,0.5),0_0_15px_rgba(197,160,89,0.3)] flex items-center justify-center z-40 transition-all duration-700 hover:scale-110">
+                    <div class="w-9 h-9 md:w-11 md:h-11 border border-[#f3e5ab] rounded-full flex items-center justify-center">
+                        <span class="font-cinzel text-[#f3e5ab] font-bold text-base md:text-lg tracking-normal">M</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="envelopeInstructions" class="text-center transition-all duration-500">
+                <p class="font-cinzel text-xs tracking-[0.3em] text-gold-gradient animate-pulse">TAP TO OPEN</p>
+                <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">Prepared by Tony Hany</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Beautiful presentation of the customized digital letter on high-grade luxury stationary -->
+    <div id="screen3" class="screen">
+        <div class="max-w-xl w-11/12 md:w-full paper-texture rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(197,160,89,0.1)] p-8 md:p-12 text-zinc-900 relative gold-border-glow border-2 flex flex-col justify-between h-[520px] md:h-[580px]">
+            <!-- Elegant ornate framing corners -->
+            <div class="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-[#c5a059]"></div>
+            <div class="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-[#c5a059]"></div>
+            <div class="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-[#c5a059]"></div>
+            <div class="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-[#c5a059]"></div>
+
+            <div class="text-center mb-6">
+                <span class="font-cinzel text-[10px] tracking-[0.4em] text-amber-800 uppercase">AN EXQUISITE DEDICATION</span>
+                <div class="w-16 h-[1px] bg-[#c5a059] mx-auto mt-2"></div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex-grow flex flex-col justify-center px-4 custom-scroll overflow-y-auto font-serif italic text-sm md:text-base text-zinc-800 leading-relaxed text-center space-y-4 md:space-y-6">
+                <p class="font-cinzel not-italic font-bold text-lg text-[#8c6b2d] tracking-wide mb-2">Dear Mina,</p>
+                <p>Today is your special day.</p>
+                <p>I wanted to create something just for you.</p>
+                <p>Thank you for the memories, the laughs, and all the good moments.</p>
+                <p>I hope this year brings you happiness, success, and everything you wish for.</p>
+                <p class="font-cinzel not-italic font-semibold text-lg text-[#8c6b2d] mt-4">Happy Birthday.</p>
+                <p class="font-cinzel not-italic text-xs tracking-widest text-[#8c6b2d] uppercase mt-2">— Tony Hany</p>
+            </div>
+
+            <div class="text-center mt-6">
+                <button onclick="goToMinaSection()" class="px-6 py-2 rounded-full border border-amber-800 hover:bg-amber-50 text-amber-900 text-[10px] font-bold tracking-widest uppercase transition-all duration-300">
+                    Next Chapter <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- The luxury frame showcasing Mina Ehab's authentic photo in high-definition prominence -->
+    <div id="screen4" class="screen">
+        <div class="flex flex-col items-center justify-center gap-6 px-4 text-center max-w-4xl">
+            <!-- Luxury Portrait Frame -->
+            <div class="relative group">
+                <!-- Golden particle container nested surrounding the image -->
+                <div class="absolute -inset-1.5 rounded-2xl bg-gradient-to-r from-[#aa771c] via-[#f3e5ab] to-[#c5a059] opacity-75 blur-md group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                
+                <!-- Double frames depicting classic art gallery layouts -->
+                <div class="relative bg-[#030303] p-3 rounded-2xl border border-[rgba(197,160,89,0.4)] shadow-2xl flex items-center justify-center">
+                    <div class="relative overflow-hidden rounded-xl border-4 border-[#c5a059]/80 w-[280px] h-[373px] md:w-[360px] md:h-[480px]">
+                        <!-- High Quality Personal Portrait Asset from User's Prompt -->
+                        <img id="minaPortrait" src="WhatsApp Image 2026-06-08 at 2.34.51 AM.jpeg" alt="Mina Ehab" class="w-full h-full object-cover transition-transform duration-1000 hover:scale-105" onerror="handleImageError(this)">
+                        
+                        <!-- Overlay subtle glow -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile labels and premium typography styling -->
+            <div class="space-y-2 mt-4">
+                <h2 class="font-cinzel text-3xl md:text-5xl text-gold-gradient tracking-[0.2em] font-black">MINA EHAB</h2>
+                <p class="text-xs md:text-sm tracking-[0.4em] text-gray-400 font-cinzel">19 YEARS OLD</p>
+                <div class="w-24 h-[1px] bg-gold-dark mx-auto mt-4"></div>
+            </div>
+
+            <!-- Transition forward -->
+            <button onclick="goToFlowerSection()" class="mt-4 px-8 py-3 rounded-full text-xs font-semibold tracking-widest text-black gold-button uppercase">
+                Explore The Garden <i class="fa-solid fa-sparkles ml-1"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Interactive blooming sequences utilizing customized procedurals in canvas to craft luxury botanical dynamics -->
+    <div id="screen5" class="screen">
+        <div class="absolute inset-0 flex flex-col justify-between items-center py-10 z-10 pointer-events-none">
+            <div class="text-center pt-4">
+                <span class="font-cinzel text-[10px] tracking-[0.4em] text-gold-gradient uppercase">FLOWER EXPERIENCE</span>
+                <p class="text-[9px] text-gray-400 uppercase tracking-widest mt-1">Witness a botanical tribute</p>
+            </div>
+            
+            <!-- Central Display State Label -->
+            <div class="text-center px-4">
+                <div id="flowerTextDisplay" class="font-cinzel text-3xl md:text-5xl text-gold-gradient tracking-[0.25em] font-bold opacity-0 transition-opacity duration-1000"></div>
+            </div>
+
+            <div class="pb-4">
+                <button id="flowerNextBtn" onclick="goToBirthdayCard()" class="px-8 py-3 rounded-full text-xs font-semibold tracking-widest text-black gold-button uppercase pointer-events-auto opacity-0 transition-opacity duration-500">
+                    Next Chapter <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Canvas utilized to draw custom glowing gold flowers blooming recursively -->
+        <canvas id="flowerCanvas" class="absolute inset-0 w-full h-full z-0 pointer-events-auto"></canvas>
+    </div>
+
+    <!-- Elegantly styled glassmorphism folding container projecting highly calibrated ambient lighting -->
+    <div id="screen6" class="screen">
+        <div class="max-w-md w-11/12 glass-card p-10 md:p-14 rounded-3xl text-center space-y-8 relative gold-border-glow shadow-[0_30px_70px_rgba(0,0,0,0.9),0_0_40px_rgba(197,160,89,0.15)] overflow-hidden">
+            <!-- Glass reflection element -->
+            <div class="absolute -top-[50%] -left-[50%] w-[200%] h-[200%] bg-gradient-to-br from-white/5 to-transparent pointer-events-none rotate-45 transform"></div>
+
+            <div class="space-y-2">
+                <div class="flex justify-center mb-2">
+                    <span class="w-2 h-2 rounded-full bg-[#c5a059]"></span>
+                </div>
+                <h3 class="font-cinzel text-xl md:text-2xl text-gold-gradient tracking-[0.3em] font-bold">19 YEARS OLD</h3>
+                <div class="w-16 h-[1px] bg-[#c5a059]/50 mx-auto"></div>
+            </div>
+
+            <div class="space-y-6 py-4">
+                <h1 class="font-cinzel text-2xl md:text-3xl font-extrabold text-[#f3e5ab] tracking-wider">Happy Birthday Mina</h1>
+                <p class="text-xs md:text-sm text-gray-300 leading-relaxed font-light">
+                    May this year bring happiness, success, and unforgettable memories.
+                </p>
+            </div>
+
+            <div class="pt-4">
+                <button onclick="goToFinalGift()" class="px-8 py-3 rounded-full text-xs font-semibold tracking-widest text-black gold-button uppercase w-full">
+                    Proceed To Final Gift <i class="fa-solid fa-gift ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- The grand dynamic gateway before triggering full immersive canvas display particles -->
+    <div id="screen7" class="screen">
+        <div class="text-center p-6 space-y-6 max-w-md">
+            <div class="flex justify-center mb-2">
+                <div class="w-20 h-20 rounded-full border border-[rgba(197,160,89,0.3)] flex items-center justify-center animate-pulse">
+                    <i class="fa-solid fa-gift text-3xl text-gold-gradient"></i>
+                </div>
+            </div>
+            <h2 class="font-cinzel text-2xl md:text-3xl text-gold-gradient tracking-widest font-bold">The Final Message</h2>
+            <p class="text-xs text-gray-400 tracking-wider">Open the gift prepared specifically for you by Tony Hany.</p>
+            
+            <button onclick="revealFinalGiftMessage()" class="px-8 py-3 rounded-full text-xs font-semibold tracking-widest text-black gold-button uppercase w-full max-w-xs">
+                Open Your Gift
+            </button>
+        </div>
+    </div>
+
+    <!-- A full screen premium backdrop utilizing deep overlays, sparks, and stars for fireworks text -->
+    <div id="finalMessagePanel" class="screen bg-black">
+        <div class="text-center px-6 max-w-xl space-y-6 z-20">
+            <h1 class="font-cinzel text-3xl md:text-5xl text-gold-gradient tracking-widest font-black animate-bounce">
+                Happy Birthday Mina ❤️
+            </h1>
+            <p class="text-sm md:text-base text-gray-300 tracking-wide leading-relaxed font-light">
+                Thank you for being an amazing friend.
+            </p>
+            <p class="text-xs md:text-sm text-gray-400 tracking-wider">
+                I hope all your dreams come true.
+            </p>
+            <div class="pt-6">
+                <span class="font-cinzel text-xs tracking-[0.4em] text-gold-gradient uppercase">— Tony Hany</span>
+            </div>
+            
+            <div class="pt-10">
+                <button onclick="restartExperience()" class="px-6 py-2 rounded-full border border-gold-dark/30 hover:bg-gold-dark/10 text-[10px] text-gray-400 tracking-widest uppercase transition-all duration-300">
+                    Replay Experience <i class="fa-solid fa-rotate-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // System variables & State Management
+        let activeScreen = 'screenGate';
+        let backgroundEngine = null;
+        let flowerEngine = null;
+
+        // Sound System Orchestration
+        // Contains standard royalty free piano track and a backup dynamic synthesizer
+        let audioContext = null;
+        let isMusicPlaying = false;
+        let bgAudio = new Audio();
+        bgAudio.loop = true;
+        // Public placeholder royalty-free acoustic emotional piano music
+        bgAudio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'; // Fallback if user doesn't replace it instantly
+        bgAudio.volume = 0.5;
+
+        // Custom Synthesizer fallback for offline/blocked connections
+        let synthInterval = null;
+        function playProceduralPiano() {
+            if (!audioContext) return;
+            // Standard pentatonic chords matching a dreamy ambient background
+            const chords = [
+                [130.81, 164.81, 196.00, 261.63], // C major
+                [146.83, 174.61, 220.00, 293.66], // D minor
+                [164.81, 196.00, 246.94, 329.63], // E minor
+                [174.61, 220.00, 261.63, 349.23]  // F major
+            ];
+            
+            let chordIdx = 0;
+            synthInterval = setInterval(() => {
+                if (audioContext.state === 'suspended') return;
+                
+                let now = audioContext.currentTime;
+                let activeChord = chords[chordIdx];
+                
+                activeChord.forEach((freq, idx) => {
+                    let osc = audioContext.createOscillator();
+                    let gainNode = audioContext.createGain();
+                    
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.15);
+                    
+                    // Soft envelope for elegant piano sound
+                    gainNode.gain.setValueAtTime(0, now);
+                    gainNode.gain.linearRampToValueAtTime(0.08, now + 0.1 + idx * 0.1);
+                    gainNode.gain.exponentialRampToValueAtTime(0.001, now + 3.0 + idx * 0.2);
+                    
+                    osc.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    osc.start(now);
+                    osc.stop(now + 4.0);
+                });
+                
+                chordIdx = (chordIdx + 1) % chords.length;
+            }, 5000);
+        }
+
+        // Initialize Audio System gracefully after click event
+        function initSound() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            // Try to load and play mp3 file, otherwise fallback to procedural chords
+            bgAudio.play().then(() => {
+                isMusicPlaying = true;
+                updateMusicUI();
+            }).catch((err) => {
+                console.log("Audio file blocked or invalid. Launching backup synthesizers...");
+                playProceduralPiano();
+                isMusicPlaying = true;
+                updateMusicUI();
+            });
+        }
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgAudio.pause();
+                if (synthInterval) clearInterval(synthInterval);
+                isMusicPlaying = false;
+            } else {
+                bgAudio.play().catch(() => {
+                    playProceduralPiano();
+                });
+                isMusicPlaying = true;
+            }
+            updateMusicUI();
+        }
+
+        function updateMusicUI() {
+            const btn = document.getElementById('musicToggleBtn');
+            if (isMusicPlaying) {
+                btn.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                document.getElementById('musicControls').style.opacity = '1';
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+            }
+        }
+
+        document.getElementById('musicToggleBtn').addEventListener('click', toggleMusic);
+        document.getElementById('volumeSlider').addEventListener('input', (e) => {
+            const vol = e.target.value;
+            bgAudio.volume = vol;
+        });
+
+        // Safe Fallback for Local Testing Portrait Loading Issues
+        function handleImageError(img) {
+            img.onerror = null;
+            // In case image file is not exactly positioned on initial build, load beautiful canvas portrait mock
+            img.src = 'https://placehold.co/600x800/101010/c5a059?text=Mina+Ehab';
+        }
+
+        // Renders ambient particles floating, reacting slightly to window size changes
+        class ParticleEngine {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.fireworks = [];
+                this.petals = [];
+                this.state = 'stars'; // stars, goldSparkles, fireworks
+                this.active = true;
+
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                this.init();
+                this.animate();
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            init() {
+                this.particles = [];
+                for (let i = 0; i < 100; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        size: Math.random() * 1.5 + 0.5,
+                        speedX: (Math.random() - 0.5) * 0.1,
+                        speedY: -Math.random() * 0.2 - 0.1,
+                        alpha: Math.random(),
+                        color: Math.random() > 0.3 ? '#c5a059' : '#ffffff'
+                    });
+                }
+            }
+
+            setState(newState) {
+                this.state = newState;
+                if (newState === 'fireworks') {
+                    this.particles = [];
+                    this.fireworks = [];
+                }
+            }
+
+            addFirework() {
+                if (this.state !== 'fireworks') return;
+                const fw = {
+                    x: Math.random() * this.canvas.width,
+                    y: this.canvas.height,
+                    targetY: Math.random() * (this.canvas.height * 0.4) + 100,
+                    speed: Math.random() * 5 + 6,
+                    color: `hsl(${Math.random() * 40 + 35}, 100%, 70%)`, // Luxury Golden hues (yellow, amber, gold)
+                    particles: [],
+                    exploded: false
+                };
+                this.fireworks.push(fw);
+            }
+
+            explode(fw) {
+                const count = 80;
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * 2 / count) * i + Math.random() * 0.5;
+                    const speed = Math.random() * 4 + 2;
+                    fw.particles.push({
+                        x: fw.x,
+                        y: fw.y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        alpha: 1,
+                        decay: Math.random() * 0.015 + 0.008
+                    });
+                }
+                
+                // Add falling petals on explosion
+                for (let i = 0; i < 5; i++) {
+                    this.petals.push({
+                        x: fw.x,
+                        y: fw.y,
+                        vx: (Math.random() - 0.5) * 2,
+                        vy: Math.random() * 1.5 + 1,
+                        r: Math.random() * 6 + 4,
+                        angle: Math.random() * Math.PI,
+                        spin: (Math.random() - 0.5) * 0.05
+                    });
+                }
+            }
+
+            animate() {
+                if (!this.active) return;
+                requestAnimationFrame(() => this.animate());
+
+                this.ctx.fillStyle = 'rgba(3, 3, 3, 0.2)';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+                if (this.state === 'stars' || this.state === 'goldSparkles') {
+                    this.particles.forEach(p => {
+                        this.ctx.save();
+                        this.ctx.globalAlpha = p.alpha;
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.beginPath();
+                        this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        this.ctx.restore();
+
+                        p.y += p.speedY;
+                        p.x += p.speedX;
+
+                        if (p.y < 0) p.y = this.canvas.height;
+                        if (p.x < 0 || p.x > this.canvas.width) p.x = Math.random() * this.canvas.width;
+
+                        p.alpha += (Math.random() - 0.5) * 0.05;
+                        if (p.alpha < 0.2) p.alpha = 0.2;
+                        if (p.alpha > 0.9) p.alpha = 0.9;
+                    });
+                }
+
+                if (this.state === 'fireworks') {
+                    // Spawn fireworks randomly
+                    if (Math.random() < 0.03 && this.fireworks.length < 8) {
+                        this.addFirework();
+                    }
+
+                    this.fireworks.forEach((fw, idx) => {
+                        if (!fw.exploded) {
+                            fw.y -= fw.speed;
+                            
+                            // Draw ascent trail
+                            this.ctx.beginPath();
+                            this.ctx.arc(fw.x, fw.y, 2, 0, Math.PI * 2);
+                            this.ctx.fillStyle = fw.color;
+                            this.ctx.fill();
+
+                            if (fw.y <= fw.targetY) {
+                                fw.exploded = true;
+                                this.explode(fw);
+                            }
+                        } else {
+                            // Draw explosion
+                            fw.particles.forEach((p, pIdx) => {
+                                p.x += p.vx;
+                                p.y += p.vy;
+                                p.vy += 0.04; // gravity
+                                p.alpha -= p.decay;
+
+                                if (p.alpha > 0) {
+                                    this.ctx.save();
+                                    this.ctx.globalAlpha = p.alpha;
+                                    this.ctx.fillStyle = fw.color;
+                                    this.ctx.shadowBlur = 10;
+                                    this.ctx.shadowColor = fw.color;
+                                    this.ctx.beginPath();
+                                    this.ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+                                    this.ctx.fill();
+                                    this.ctx.restore();
+                                }
+                            });
+
+                            // Remove dead particles
+                            fw.particles = fw.particles.filter(p => p.alpha > 0);
+                        }
+                    });
+
+                    // Update and draw falling flower petals
+                    this.petals.forEach((p, pIdx) => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.angle += p.spin;
+
+                        this.ctx.save();
+                        this.ctx.translate(p.x, p.y);
+                        this.ctx.rotate(p.angle);
+                        this.ctx.fillStyle = 'rgba(197, 160, 89, 0.7)'; // beautiful golden petals falling
+                        this.ctx.beginPath();
+                        // Draw simple elegant petal shape
+                        this.ctx.ellipse(0, 0, p.r, p.r / 2, 0, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        this.ctx.restore();
+                    });
+
+                    // Cleanup inactive elements
+                    this.fireworks = this.fireworks.filter(fw => !fw.exploded || fw.particles.length > 0);
+                    this.petals = this.petals.filter(p => p.y < this.canvas.height);
+                }
+            }
+        }
+
+        // This is the magnificent customized floral procedural renderer
+        class FlowerExperience {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                this.active = false;
+                this.vines = [];
+                this.flowers = [];
+                this.step = 0; // 0: Blooming, 1: Mina Text, 2: 19 Text, 3: Happy Birthday Text, 4: Bouquet
+                this.textParticles = [];
+                this.timeInState = 0;
+
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+            }
+
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+
+            start() {
+                this.active = true;
+                this.step = 0;
+                this.vines = [];
+                this.flowers = [];
+                this.textParticles = [];
+                this.timeInState = 0;
+                
+                // Initialize elegant procedural growing flower stems
+                const centerX = this.canvas.width / 2;
+                const bottomY = this.canvas.height;
+                
+                this.vines.push({
+                    x: centerX,
+                    y: bottomY,
+                    currentX: centerX,
+                    currentY: bottomY,
+                    targetY: bottomY - this.canvas.height * 0.45,
+                    speed: 2.5,
+                    angle: -Math.PI / 2,
+                    branches: 0,
+                    color: 'rgba(140, 107, 45, 0.4)'
+                });
+
+                this.animate();
+                this.sequenceController();
+            }
+
+            stop() {
+                this.active = false;
+            }
+
+            // High complexity canvas animations controlling step delays
+            sequenceController() {
+                const textDisplay = document.getElementById('flowerTextDisplay');
+                const nextBtn = document.getElementById('flowerNextBtn');
+
+                // Step 0: Growing & Blooming
+                setTimeout(() => {
+                    if (!this.active) return;
+                    this.step = 1; // Transition to Text "MINA EHAB"
+                    textDisplay.textContent = "MINA EHAB";
+                    textDisplay.style.opacity = "1";
+                    this.generateTextParticles("MINA EHAB");
+                }, 4000);
+
+                // Step 1 -> 2: Transition to "19"
+                setTimeout(() => {
+                    if (!this.active) return;
+                    textDisplay.style.opacity = "0";
+                    setTimeout(() => {
+                        this.step = 2;
+                        textDisplay.textContent = "19";
+                        textDisplay.style.opacity = "1";
+                        this.generateTextParticles("19");
+                    }, 1000);
+                }, 8000);
+
+                // Step 2 -> 3: Transition to "HAPPY BIRTHDAY"
+                setTimeout(() => {
+                    if (!this.active) return;
+                    textDisplay.style.opacity = "0";
+                    setTimeout(() => {
+                        this.step = 3;
+                        textDisplay.textContent = "HAPPY BIRTHDAY";
+                        textDisplay.style.opacity = "1";
+                        this.generateTextParticles("HAPPY BIRTHDAY");
+                    }, 1000);
+                }, 12000);
+
+                // Step 3 -> 4: Transition to Luxury Flower Bouquet
+                setTimeout(() => {
+                    if (!this.active) return;
+                    textDisplay.style.opacity = "0";
+                    this.step = 4;
+                    // Gather points to generate visual bouquet shape dynamically
+                    this.generateBouquetParticles();
+                    nextBtn.style.opacity = "1";
+                }, 16000);
+            }
+
+            generateTextParticles(text) {
+                this.textParticles = [];
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCanvas.width = this.canvas.width;
+                tempCanvas.height = this.canvas.height;
+
+                // Adjust font size dynamically on screen ratios
+                const fontSize = this.canvas.width < 600 ? 32 : 56;
+                tempCtx.font = `bold ${fontSize}px 'Cinzel', serif`;
+                tempCtx.fillStyle = 'white';
+                tempCtx.textAlign = 'center';
+                tempCtx.textBaseline = 'middle';
+                tempCtx.fillText(text, tempCanvas.width / 2, tempCanvas.height / 2);
+
+                const imgData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+                const stepSize = this.canvas.width < 600 ? 8 : 10;
+
+                for (let y = 0; y < tempCanvas.height; y += stepSize) {
+                    for (let x = 0; x < tempCanvas.width; x += stepSize) {
+                        const index = (y * tempCanvas.width + x) * 4;
+                        if (imgData.data[index + 3] > 128) {
+                            // Point resides within text boundary
+                            this.textParticles.push({
+                                currentX: this.canvas.width / 2 + (Math.random() - 0.5) * 200,
+                                currentY: this.canvas.height / 2 + (Math.random() - 0.5) * 200,
+                                targetX: x,
+                                targetY: y,
+                                originX: x,
+                                originY: y,
+                                r: Math.random() * 2 + 1,
+                                color: `rgba(197, 160, 89, ${Math.random() * 0.7 + 0.3})`,
+                                speed: Math.random() * 0.05 + 0.03
+                            });
+                        }
+                    }
+                }
+            }
+
+            generateBouquetParticles() {
+                // Generates particles converging to depict a high-art bouquet outline at core center
+                this.textParticles = [];
+                const pointsCount = 200;
+                const centerX = this.canvas.width / 2;
+                const centerY = this.canvas.height / 2 - 30;
+
+                for (let i = 0; i < pointsCount; i++) {
+                    // Rose cluster positions mapping an elegant geometric inverted pyramid/fan shape
+                    const angle = Math.random() * Math.PI - Math.PI; // Top semi-circle
+                    const radius = Math.random() * 80 + 10;
+                    const tx = centerX + Math.cos(angle) * radius;
+                    const ty = centerY + Math.sin(angle) * (radius * 0.7);
+
+                    this.textParticles.push({
+                        currentX: centerX,
+                        currentY: this.canvas.height,
+                        targetX: tx,
+                        targetY: ty,
+                        r: Math.random() * 3 + 1.5,
+                        color: `rgba(${200 + Math.random() * 55}, ${140 + Math.random() * 60}, 80, ${Math.random() * 0.8 + 0.2})`, // Soft luxury gold/rose hues
+                        speed: 0.04
+                    });
+                }
+
+                // Ribbon & Stem points matching the design request for bouquet structure
+                for (let i = 0; i < 60; i++) {
+                    this.textParticles.push({
+                        currentX: centerX,
+                        currentY: this.canvas.height,
+                        targetX: centerX + (Math.random() - 0.5) * 15,
+                        targetY: centerY + 60 + Math.random() * 80,
+                        r: 1.5,
+                        color: 'rgba(140, 107, 45, 0.6)',
+                        speed: 0.05
+                    });
+                }
+            }
+
+            drawRose(x, y, size) {
+                // Procedural luxury vector-style rose drawing using nested geometric arcs for elegant petal looks
+                this.ctx.save();
+                this.ctx.translate(x, y);
+                this.ctx.fillStyle = 'rgba(197, 160, 89, 0.15)';
+                this.ctx.strokeStyle = 'rgba(197, 160, 89, 0.8)';
+                this.ctx.lineWidth = 1;
+
+                for (let i = 0; i < 6; i++) {
+                    this.ctx.beginPath();
+                    this.ctx.arc(Math.sin(i) * size * 0.3, Math.cos(i) * size * 0.3, size * 0.6, 0, Math.PI * 2);
+                    this.ctx.fill();
+                    this.ctx.stroke();
+                }
+
+                // Core inner layer
+                this.ctx.fillStyle = 'rgba(140, 107, 45, 0.4)';
+                this.ctx.beginPath();
+                this.ctx.arc(0, 0, size * 0.3, 0, Math.PI * 2);
+                this.ctx.fill();
+                this.ctx.stroke();
+                this.ctx.restore();
+            }
+
+            animate() {
+                if (!this.active) return;
+                requestAnimationFrame(() => this.animate());
+
+                this.ctx.fillStyle = 'rgba(3, 3, 3, 0.3)';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+                this.timeInState += 0.016;
+
+                // Render Growing Vines (Stems)
+                if (this.step === 0) {
+                    this.vines.forEach(v => {
+                        if (v.currentY > v.targetY) {
+                            v.currentY -= v.speed;
+                            v.currentX += Math.sin(v.currentY * 0.05) * 1;
+
+                            // Left and right side vine branch growth
+                            if (v.branches < 2 && Math.random() < 0.02) {
+                                v.branches++;
+                                const branchSide = Math.random() > 0.5 ? 1 : -1;
+                                this.vines.push({
+                                    x: v.currentX,
+                                    y: v.currentY,
+                                    currentX: v.currentX,
+                                    currentY: v.currentY,
+                                    targetY: v.currentY - 100,
+                                    speed: 1.8,
+                                    angle: -Math.PI / 2 + (branchSide * 0.4),
+                                    branches: 3, // Prevent deep recursive infinite looping
+                                    color: 'rgba(140, 107, 45, 0.3)'
+                                });
+                            }
+                        } else {
+                            // vine fully grown, spawn elegant rose at top
+                            if (this.flowers.length < 5) {
+                                this.flowers.push({
+                                    x: v.currentX,
+                                    y: v.currentY,
+                                    currentSize: 0,
+                                    targetSize: Math.random() * 20 + 25
+                                });
+                            }
+                        }
+
+                        // Drawing vine path
+                        this.ctx.beginPath();
+                        this.ctx.moveTo(v.x, v.y);
+                        this.ctx.quadraticCurveTo(v.x + (v.currentX - v.x)/2 + 20, v.y + (v.currentY - v.y)/2, v.currentX, v.currentY);
+                        this.ctx.strokeStyle = v.color;
+                        this.ctx.lineWidth = 1.5;
+                        this.ctx.stroke();
+                    });
+
+                    // Render Blooming Flowers
+                    this.flowers.forEach(f => {
+                        if (f.currentSize < f.targetSize) {
+                            f.currentSize += 0.5;
+                        }
+                        this.drawRose(f.x, f.y, f.currentSize);
+                    });
+                }
+
+                // Render Text / Bouquet Morphing Particles
+                if (this.step >= 1) {
+                    this.textParticles.forEach(p => {
+                        // Linear interpolation towards the respective target shape offsets
+                        p.currentX += (p.targetX - p.currentX) * p.speed;
+                        p.currentY += (p.targetY - p.currentY) * p.speed;
+
+                        // Subtle natural floating drift
+                        const noise = Math.sin(this.timeInState * 2 + p.originX * 0.1) * 0.2;
+                        
+                        this.ctx.save();
+                        this.ctx.fillStyle = p.color;
+                        this.ctx.beginPath();
+                        this.ctx.arc(p.currentX + noise, p.currentY + noise, p.r, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        this.ctx.restore();
+                    });
+                }
+            }
+        }
+
+        // Initialize engines
+        window.onload = function() {
+            backgroundEngine = new ParticleEngine('bgCanvas');
+            flowerEngine = new FlowerExperience('flowerCanvas');
+        };
+
+        function switchScreen(fromId, toId) {
+            const current = document.getElementById(fromId);
+            const target = document.getElementById(toId);
+            
+            if (current) {
+                current.classList.remove('active');
+            }
+            if (target) {
+                target.classList.add('active');
+            }
+            activeScreen = toId;
+        }
+
+        function startExperience() {
+            initSound();
+            switchScreen('screenGate', 'screen1');
+            runIntroSequence();
+        }
+
+        // Screen 1: Cinematic Subtitle Fades
+        function runIntroSequence() {
+            const introSub = document.getElementById('introSubtitle');
+            const lines = [
+                "Every year tells a story...",
+                "And today is a very special chapter.",
+                "For someone truly special."
+            ];
+
+            let lineIndex = 0;
+            
+            function showNextLine() {
+                if (lineIndex < lines.length) {
+                    introSub.style.opacity = "0";
+                    introSub.style.transform = "scale(0.95)";
+                    
+                    setTimeout(() => {
+                        introSub.textContent = lines[lineIndex];
+                        introSub.style.opacity = "1";
+                        introSub.style.transform = "scale(1)";
+                        lineIndex++;
+                        
+                        // Stay active on screen
+                        setTimeout(() => {
+                            showNextLine();
+                        }, 2500);
+                    }, 800);
+                } else {
+                    // All lines shown, transition to Envelope Screen
+                    introSub.style.opacity = "0";
+                    setTimeout(() => {
+                        switchScreen('screen1', 'screen2');
+                    }, 1200);
+                }
+            }
+
+            // Begin sequence
+            setTimeout(() => {
+                showNextLine();
+            }, 500);
+        }
+
+        // Screen 2: Envelope Opening Logic
+        function openEnvelope() {
+            const flap = document.getElementById('envelopeFlap');
+            const seal = document.getElementById('waxSeal');
+            const letter = document.getElementById('envelopeLetter');
+            const wrapper = document.getElementById('envelopeWrapper');
+            const instr = document.getElementById('envelopeInstructions');
+
+            // Break animation loop
+            wrapper.classList.remove('float-animation');
+            
+            // Pop golden sparkles in context
+            backgroundEngine.setState('goldSparkles');
+
+            // Animate Seal rotating & sliding out
+            seal.style.transform = "scale(0) translateY(-100px)";
+            seal.style.opacity = "0";
+
+            // Rotate envelope flap backwards
+            setTimeout(() => {
+                flap.style.transform = "rotateX(180deg)";
+                
+                // Slide Letter upwards and enlarge slightly
+                setTimeout(() => {
+                    letter.style.opacity = "1";
+                    letter.style.transform = "translateY(-40px) scale(1.05)";
+                    
+                    // Proceed straight into full screen letter
+                    setTimeout(() => {
+                        switchScreen('screen2', 'screen3');
+                    }, 2200);
+                }, 600);
+            }, 500);
+        }
+
+        // Navigation actions connecting respective sections
+        function goToMinaSection() {
+            switchScreen('screen3', 'screen4');
+        }
+
+        function goToFlowerSection() {
+            switchScreen('screen4', 'screen5');
+            flowerEngine.start();
+        }
+
+        function goToBirthdayCard() {
+            flowerEngine.stop();
+            switchScreen('screen5', 'screen6');
+        }
+
+        function goToFinalGift() {
+            switchScreen('screen6', 'screen7');
+        }
+
+        function revealFinalGiftMessage() {
+            // Initiate immersive cinematic black background & intense gold fireworks
+            backgroundEngine.setState('fireworks');
+            switchScreen('screen7', 'finalMessagePanel');
+        }
+
+        function restartExperience() {
+            // Revert background to stars
+            backgroundEngine.setState('stars');
+            // Reset to Gate screen to re-request gesture and sequence correctly
+            switchScreen('finalMessagePanel', 'screenGate');
+        }
+    </script>
+</body>
+</html>
